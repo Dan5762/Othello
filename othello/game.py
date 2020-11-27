@@ -1,13 +1,13 @@
 import json
 
-from othello.state_tracker import OthelloGame
+from othello.state_tracker import OthelloBoard
 
 if __name__ == "__main__":
     with open('config.json', 'r') as f:
         conf = json.load(f)
 
-    othello_game = OthelloGame(**conf)
+    othello_board = OthelloBoard(**conf)
 
-    
+    othello_board.run_game()
 
     

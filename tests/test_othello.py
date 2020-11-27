@@ -7,7 +7,7 @@ from othello.visualise import visualise_board
 class OthelloTest(unittest.TestCase):
 
     def test_possible_moves(self):
-        othello_board = OthelloBoard()
+        othello_board = OthelloBoard(board_size=8)
         new_board = [
             [None, None, None, None, None, None, None, None],
             [None, None, None, None, None, None, None, None],
