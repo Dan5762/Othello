@@ -21,7 +21,7 @@ class OthelloTest(unittest.TestCase):
         for i in range(len(new_board)):
             for j in range(len(new_board[i])):
                 othello_board.update_board(new_board[i][j], (i, j))
-        
+
         possible_moves = othello_board.get_possible_moves(color="w")
 
         correct_possible_moves = [(4, 3), (2, 5), (5, 2), (3, 4), (3, 0), (5, 6), (2, 1), (4, 3)]
