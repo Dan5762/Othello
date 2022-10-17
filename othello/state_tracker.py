@@ -4,16 +4,21 @@ from functools import reduce
 
 class OthelloBoard:
 
-    def __init__(self, board, opponent="random", player_color="w"):
-        self.board = board
+    def __init__(self, opponent="random", player_color="w"):
+        self.board = [[None] * 8 for _ in range(8)]
+        self.board[3][3] = self.board[4][4] = 'w'
+        self.board[3][4] = self.board[4][3] = 'b'
 
-        self.directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+        self.directions = [
+            (1, 0), (-1, 0), (0, 1), (0, -1),
+            (1, 1), (1, -1), (-1, 1), (-1, -1)
+        ]
 
         self.opponent = opponent
         self.player_color = player_color
         self.cpu_color = (set(['w', 'b']) - set([player_color])).pop()
 
-    def get_board(self):
+    def get_board(self, show_move_color=None):
         return self.board
 
     def update_board(self, update_value, position):
@@ -68,12 +73,23 @@ class OthelloBoard:
             return True
 
     def choose_cpu_move(self):
-        if self.opponent == "random":
-            possible_moves = self.get_possible_moves(self.cpu_color)
+        possible_moves = self.get_possible_moves(self.cpu_color)
 
+        if self.opponent == "random":
             cpu_move = random.choice(possible_moves)
 
             return cpu_move
+
+        elif self.opponent == "greedy":
+            max_flips = 0
+            for possible_move in possible_moves:
+                flips = self.flip_evaluater(self.cpu_color, possible_move)
+
+                if len(flips) > max_flips:
+                    cpu_move = possible_move
+
+            return cpu_move
+
         else:
             raise Exception('Invalid opponent selected')
 
