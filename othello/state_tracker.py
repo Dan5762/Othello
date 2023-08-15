@@ -1,9 +1,10 @@
 import random
 from functools import reduce
 
+from othello.agents.minimax import run_minimax
+
 
 class OthelloBoard:
-
     def __init__(self, opponent="random", player_color="w"):
         self.board = [[None] * 8 for _ in range(8)]
         self.board[3][3] = self.board[4][4] = 'w'
@@ -90,6 +91,11 @@ class OthelloBoard:
 
             return cpu_move
 
+        elif self.opponent == 'minimax':
+            cpu_move = run_minimax(self, 'b', 4)
+            print(cpu_move)
+            return cpu_move
+
         else:
             raise Exception('Invalid opponent selected')
 
@@ -123,3 +129,6 @@ class OthelloBoard:
 
         for (i, j) in flips:
             self.board[i][j] = color
+
+    def get_score(self, color):
+        return sum([len([tile for tile in row if tile == color]) for row in self.board])

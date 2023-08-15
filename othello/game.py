@@ -7,7 +7,7 @@ from othello.state_tracker import OthelloBoard
 
 
 class Game(tk.Frame):
-    def __init__(self, parent, rows=8, columns=8, size=64, cell_border=1, color="green", border_color='gray', vs_cpu=True, cpu_algorithm="greedy", player_idx=0):
+    def __init__(self, parent, rows=8, columns=8, size=64, cell_border=1, color="green", border_color='gray', vs_cpu=True, cpu_algorithm="minimax", player_idx=0):
         self.rows = rows
         self.columns = columns
         self.size = size
@@ -18,7 +18,7 @@ class Game(tk.Frame):
         self.player_colors = ['w', 'b']
         self.vs_cpu = vs_cpu
         self.cpu_algorithm = cpu_algorithm
-        
+
         self.othello_board = OthelloBoard(opponent=self.cpu_algorithm)
 
         canvas_width = columns * size
@@ -41,7 +41,7 @@ class Game(tk.Frame):
         # Calculate column and row number
         col = int(event.x // col_width)
         row = int(event.y // row_height)
-        
+
         opponent_idx = (self.player_idx + 1) % 2
 
         if len(self.othello_board.get_possible_moves(self.player_colors[self.player_idx])) > 0 and self.othello_board.check_valid_position((row, col)):
@@ -65,9 +65,9 @@ class Game(tk.Frame):
             ysize = int((event.height - 1) / self.rows)
             self.size = min(xsize, ysize)
             self.canvas.delete("square")
-        
+
         board = self.othello_board.get_board()
-            
+
         for row in range(self.rows):
             for col in range(self.columns):
                 x1 = (col * self.size) + self.cell_border
